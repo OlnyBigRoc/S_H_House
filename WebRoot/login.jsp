@@ -15,6 +15,9 @@
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
 <LINK rel=stylesheet type=text/css href="css/style.css">
 <META name=GENERATOR content="MSHTML 8.00.7601.17514">
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+
+
 </HEAD>
 <BODY>
 	<DIV id=header class=wrap>
@@ -27,8 +30,8 @@
 			<DIV class=box>
 				<H4>用户登录</H4>
 				<FORM id="user" method="post" name="user" action="UsersActionlogin">
-					<DIV>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<strong>${loginNo}</strong>
+					<DIV>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong class="error">${loginNo}</strong>
 					</DIV>
 					<DIV class=infos>
 						<TABLE class=field>
@@ -38,14 +41,16 @@
 								</TR>
 								<TR>
 									<TD class=field>用 户 名：</TD>
-									<TD><INPUT id=user_name class=text type=text name="name"></TD>
+									<TD><INPUT id="user_name" class=text type=text name="name" >
+									</TD>
 								</TR>
 								<TR>
 									<TD class=field>密 码：</TD>
 									<TD>
 										<!-- <input type="password" class="text" name="password" /> -->
 										<INPUT id=user_password class=text type=password
-										name="password"></TD>
+										name="password">
+									</TD>
 								</TR>
 								<!--
 						<tr>

@@ -1,14 +1,9 @@
 package cn.house.action;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import cn.house.dao.IHouseDao;
@@ -18,34 +13,43 @@ import cn.house.entity.Tj;
 
 public class HouseAction extends ActionSupport {
 
-	private String title; // 标题
-	private String typeId; // 户型
-	private String floorage; // 面积
-	private String price; // 价格
-	private String houseDate; // 房产证日期
+	private String title; 		// 标题
+	private String type_id; 	// 户型id
+	private String floorage; 	// 面积
+	private String price; 		// 价格
+	private String houseDate; 	// 房产证日期
 	private String district_id; // 位置
-	private String contact; // 联系方式
+	private String contact; 	// 联系方式
 	private String description; // 详细信息
-	private String street_id;
-	private String pageStr;
+	private String street_id;	//街道id
+	private String pageStr; 	// 当前页
 
 	IHouseDao ihd = new HouseDaoImpl();
 
 	@Override
 	public String execute() throws Exception {
+		System.out.println("title\t"+title);
+		System.out.println("price\t"+price);
+		System.out.println("street_id\t"+street_id);
+		System.out.println("type_id\t"+type_id);
+		System.out.println("floorage\t"+floorage);
+		
+		
 		Tj tj = new Tj();
 		tj.setTitle(title);
 		tj.setPrice(price);
-		if (street_id != null) {
+		tj.setFloorage(floorage);
+		if (street_id != null &&street_id.trim().length()!=0) {
 			tj.setStreetId(Short.parseShort(street_id));
 		}
-		if (street_id != null) {
-			tj.setTypesId(Short.parseShort(typeId));
+		if (type_id != null && type_id.trim().length() !=0) {
+			System.err.println("type");
+			tj.setTypesId(Short.parseShort(type_id));
 		}
-		int sumPage = (int) ihd.selectSumPageByTj(tj);
-		int pageNo=1;
-		if(pageStr!=null){
-			pageNo= Integer.parseInt(pageStr);
+		int sumPage = ihd.selectSumPageByTj(tj);
+		int pageNo = 1;
+		if (pageStr != null) {
+			pageNo = Integer.parseInt(pageStr);
 		}
 		if (pageNo > sumPage) {
 			pageNo = sumPage;
@@ -53,15 +57,15 @@ public class HouseAction extends ActionSupport {
 		if (pageNo < 1) {
 			pageNo = 1;
 		}
-		
-		List<House>houseList=ihd.selectHouseByPageNoAndTj(pageNo, tj);
-		Map<String, Object> session = null;
-		session = ActionContext.getContext().getSession();
+
+		List<House> houseList = ihd.selectHouseByPageNoAndTj(pageNo, tj);
 		ServletActionContext.getRequest().getSession()
 				.setAttribute("pageNo", pageNo);
 		ServletActionContext.getRequest().getSession()
 				.setAttribute("sumPage", sumPage);
-		session.put("houseList", houseList);
+		ServletActionContext.getRequest().getSession()
+				.setAttribute("houseList", houseList);
+
 		return "ok";
 	}
 
@@ -73,12 +77,14 @@ public class HouseAction extends ActionSupport {
 		this.title = title;
 	}
 
-	public String getTypeId() {
-		return typeId;
+	
+
+	public String getType_id() {
+		return type_id;
 	}
 
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
+	public void setType_id(String type_id) {
+		this.type_id = type_id;
 	}
 
 	public String getFloorage() {

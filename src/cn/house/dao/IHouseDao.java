@@ -25,7 +25,7 @@ public interface IHouseDao {
 	 * @param tj：条件
 	 * @return int SumPage
 	 */
-	long selectSumPageByTj(Tj tj);
+	int selectSumPageByTj(Tj tj);
 	/**
 	 * 根据条件和页码查询房屋信息
 	 * @param pageNo

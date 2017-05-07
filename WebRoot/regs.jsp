@@ -13,38 +13,15 @@
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
 <LINK rel=stylesheet type=text/css href="css/style.css">
 <META name=GENERATOR content="MSHTML 8.00.7601.17514">
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 </HEAD>
+
 <BODY>
 	<DIV id=header class=wrap>
 		<DIV id=logo>
 			<IMG src="images/logo.gif">
 		</DIV>
 	</DIV>
-	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
-	<!-- 
-	<script type="text/javascript">
-		function checkName() {
-			var username = document.getElementsByName("name")[0].value;
-			$.ajax({
-				type : "post",
-				url : "UsersActionselectName.action",
-				data : "name=" + username,
-				success : function(dd) {
-					if (dd == "true") {
-						alert("此用户名已存在");
-						document.getElementById("submit").disabled = true;
-					} else if (dd == "false") {
-						document.getElementById("submit").disabled = false;
-					}
-					alert("请您换个用户名试试哦@");
-				},
-				error : function() {
-					alert("出错误了!!!");
-				}
-			});
-		}
-	</script>
-	 -->
 	<DIV id=regLogin class=wrap>
 		<DIV class=dialog>
 			<DL class=clearfix>
@@ -58,11 +35,13 @@
 							<TBODY>
 								<TR>
 									<TD class=field>用 户 名：</TD>
-									<TD><INPUT class=text type=text name="name"></TD>
+									<TD><INPUT id="user_name" class="text" type="text"
+										name="name" onblur="checkName()"> <span id="sname"></span>
+									</TD>
 								</TR>
 								<TR>
 									<TD class=field>密 码：</TD>
-									<TD><INPUT class=text type=password name="password">
+									<TD><INPUT class=text type=password name="password" id="pwd">
 									</TD>
 								</TR>
 							</TBODY>
@@ -83,5 +62,34 @@
 		</DL>
 	</DIV>
 </BODY>
+<script type="text/javascript">
+	function checkName() {
+		var name = $("#user_name").val();
+		var $sname = $("#sname");
+		if (name == null || name == "") {
+			$sname.html("用户名不能为空").css("color", "red");
+			document.getElementById("submit").disabled=true;
+		} else {
+			$.ajax({
+				url : "UsersActioncheckName",
+				type : "post",
+				data : "name=" + name,
+				//dateType : "text",
+				success : function(result) {
+					if (result == "true") {
+						$sname.html("用户名可用").css("color", "green");
+						document.getElementById("submit").disabled=false;
+					} else {
+						$sname.html("用户名已注册").css("color", "red");
+						document.getElementById("submit").disabled=true;
+					}
+				},
+				error : function() {
+					alert("(ajax)用户名检测失败！");
+				}
+			});
+		}
+	}
+</script>
 </HTML>
 

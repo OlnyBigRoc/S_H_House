@@ -10,7 +10,7 @@
 	<property name="dialect">
 		org.hibernate.dialect.Oracle9Dialect
 	</property>
-	<property name="connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
+	<property name="connection.url">jdbc:oracle:thin:@localhost:1521:ORCL</property>
 	<property name="connection.username">bigroc</property>
 	<property name="connection.password">bigroc</property>
 	<property name="connection.driver_class">

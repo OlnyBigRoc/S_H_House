@@ -16,4 +16,10 @@ public interface IUsersDao {
 	 * @return boolean
 	 */
 	boolean insert(Users users);
+	/**
+	 * 检查name是否占用
+	 * @param name：检查字符 
+	 * @return boolean
+	 */
+	boolean checkName(String name);
 }

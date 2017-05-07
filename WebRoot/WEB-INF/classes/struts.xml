@@ -27,17 +27,24 @@
 			<result name="InsertError">/regs.jsp</result>
 		</action>
 		
-		<action name="StreetAction" class="cn.house.action.StreetAction" >
-			<result name="StreetSuccess" type="redirectAction">HouseAction</result>
+		<action name="IndexAction" class="cn.house.action.IndexAction">
+			<result name="ok" type="redirectAction">StreetAction</result>
 		</action>
 		
-		
-		<action name="HouseAction" class="cn.house.action.HouseAction" >
-			<result name="ok" type="redirectAction">TypesAction</result>
+		<action name="StreetAction" class="cn.house.action.StreetAction" >
+			<result name="StreetSuccess" type="redirectAction">TypesAction</result>
 		</action>
 		
 		<action name="TypesAction" class="cn.house.action.TypesAction" >
-			<result name="TypeSuccess" type="redirect">index.jsp</result>
+			<result name="TypeSuccess" type="redirectAction">HouseAction</result>
 		</action>
+		
+		<action name="HouseAction" class="cn.house.action.HouseAction" >
+			<result name="ok" type="redirect">index.jsp</result>
+		</action>
+		
+		
+		
+		
 	</package>
 </struts>    

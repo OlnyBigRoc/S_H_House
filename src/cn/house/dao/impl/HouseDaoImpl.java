@@ -32,7 +32,7 @@ public class HouseDaoImpl implements IHouseDao {
 		return typesList;
 	}
 
-	//
+	//根据条件and页码查询房屋信息
 	public List<House> selectHouseByPageNoAndTj(int pageNo, Tj tj) {
 		List<House> houseList = null;
 		StringBuffer hql = null;
@@ -45,7 +45,8 @@ public class HouseDaoImpl implements IHouseDao {
 				hql.append(" and title like '%" + tj.getTitle() + "%' ");
 			}
 			// 价格
-			if (tj.getPrice() != null && tj.getPrice().trim() != "") {
+			if (tj.getPrice()!= null && tj.getPrice().trim().length()!=0) {
+				System.out.println("HouseDaoImpl价格"+tj.getPrice());
 				String[] price = tj.getPrice().split("-");
 				short start = Short.parseShort(price[0]);
 				if (price.length > 1) {
@@ -66,7 +67,7 @@ public class HouseDaoImpl implements IHouseDao {
 				hql.append(" and types.id=" + tj.getTypesId());
 			}
 			// 面积
-			if (tj.getFloorage() != null && tj.getFloorage().trim() != "") {
+			if (tj.getFloorage() != null && tj.getFloorage().trim().length() !=0) {
 				String[] floorage = tj.getFloorage().split("-");
 				short start = Short.parseShort(floorage[0]);
 				if (floorage.length > 1) {
@@ -111,25 +112,18 @@ public class HouseDaoImpl implements IHouseDao {
 	}
 
 	// 根据条件查询总页数
-	public long selectSumPageByTj(Tj tj) {
+	public int selectSumPageByTj(Tj tj) {
 		StringBuffer hql = new StringBuffer(
 				"select count(*) from House where 1=1 ");
 		long sum = 0;
 		try {
 			Session session = HibernateSessionFactory.getSession();
-
-			// System.out.println("1" + tj.getFloorage() != null);
-			// System.out.println("2" + tj.getPrice());
-			// System.out.println("3" + tj.getTitle());
-			// System.out.println("4" + tj.getStreetId());
-			// System.out.println("5" + tj.getTypesId());
-
 			// 标题
 			if (tj.getFloorage() != null && tj.getTitle().trim().length() != 0) {
 				hql.append(" and title like '%" + tj.getTitle() + "%' ");
 			}
 			// 价格
-			if (tj.getPrice() != null && tj.getPrice().trim() != "") {
+			if (tj.getPrice() != null && tj.getPrice().trim().length() != 0) {
 				String[] price = tj.getPrice().split("-");
 				short start = Short.parseShort(price[0]);
 				if (price.length > 1) {
@@ -150,7 +144,7 @@ public class HouseDaoImpl implements IHouseDao {
 				hql.append(" and types.id=" + tj.getTypesId());
 			}
 			// 面积
-			if (tj.getFloorage() != null && tj.getFloorage().trim() != "") {
+			if (tj.getFloorage() != null && tj.getFloorage().trim().length()!=0) {
 				String[] floorage = tj.getFloorage().split("-");
 				short start = Short.parseShort(floorage[0]);
 				if (floorage.length > 1) {
@@ -169,8 +163,8 @@ public class HouseDaoImpl implements IHouseDao {
 		} finally {
 			HibernateSessionFactory.closeSession();
 		}
-		System.out.println("houseDaoImpl sumPage:" + sum);
 		// 返回总页数
-		return sum % 5 == 0 ? sum / 5 : sum / 5 + 1;
+		int sumPage=(int) (sum % 5 == 0 ? sum / 5 : sum / 5 + 1);
+		return sumPage;
 	}
 }
